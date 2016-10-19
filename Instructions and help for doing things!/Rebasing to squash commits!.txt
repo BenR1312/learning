@@ -1,0 +1,30 @@
+Rebasing to squash commits!
+
+# !Warning! #
+# This can potentially be catastrophic if not done with absolute care! #
+# !Warning! #
+
+1. For extra security always do this in another branch to play it safe.
+
+2. Pull current branch to ensure no extra work is added
+  (eg: work from a different pc on the same branch)
+
+3. Go to your base remote/origin branch (eg: develop (or in ilca's case staging))
+   pull to ensure it is up to date with the latest work.
+
+4. git rebase --committer-date-is-author-date develop
+   (for ilca its: git rebase --committer-date-is-author-date staging)
+
+5. git push -f (why did we do this part?)
+
+6. git reset staging
+   resets back to staging with all commits reverted and all work still intact.
+
+7. Check all the changes and create the new commits for the work.
+   eg: added this new feature
+       changed this other thing not involved with my feature
+
+8. git push -f
+   This will force our changes and demolish the history.
+   Now those 30 commits are squashed down to 1 or 2 that will be the entire
+   feature and not the 30 commits of minor changes or spec fixes

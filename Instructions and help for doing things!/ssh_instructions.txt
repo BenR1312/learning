@@ -1,0 +1,64 @@
+Basic How to ssh for server debugging / patching / editing.
+
+  To ssh into a server we can follow these basic instructions to get the right info
+  for where to go.
+
+  1. go to to the Capfile in an app to find the information for the different environments.
+    eg: staging details might look like this
+      stage :staging do
+        server 'railsvr1.blah.net.au', :app, :db, :web, primary: true
+        set    :domain, 'staging.testing_blah.org.au'
+        set    :core_name, "staging"
+        set    :group, 'developers'
+      end
+
+  2. then we can use the server information to ssh into the server.
+     we use ubuntu for hosting our servers?
+    eg: ssh ubuntu@railsvr1.blah.net.au
+
+    this gets us onto the server for staging our apps.
+
+  3. Currently we dont have access to the right info or the right environment
+     to get the vhosts for the servers themselves we do
+     - cd /var/vhosts/staging.testing_blah.org.au
+
+  4. This gets us to the environment for testing_blah staging.
+    from here we can ls to see the current environment, the releases
+    which will contain the current release and the previous release.
+    there is also a shared folder which contains information important to everything that
+    wont really change. mostly .yml files.
+
+  5. From here we cd into the relevant file, eg.
+     - cd current
+     This gets us to the current version and we can now start investigating either.
+     Problems in individual files, eg, we can cd into app/models and change or copy a model
+
+  6. The more common one to look at is, how to get into a console window to start
+     querying the database.
+     ensure the pathname looks something like this.
+     - ubuntu@railsvr1:/var/vhosts/staging.testing_blah.org.au/current
+
+     then we can run - rails c staging
+     its important to note that we need to specify the environment as
+     - rails c
+     wont work and will give a wonky error message.
+
+  Notes for debugging:
+    Other options we have available are to head in and find a file, and open it up
+    with vi and edit it live on the server.
+
+    eg from the current directory we can then, cd app/models/ to visit.
+    or, we can do vi app/models/user.rb to get to the user.rb file and open it in vi
+    for editing.
+
+    another important tool is scp ( scp -- secure copy (remote file copy program) )
+    this is for when we want to copy a file from a location and put it somewhere else,
+    like if we wanted to copy a file from staging / prod and fuck around with it on the desktop.
+
+    scp ubuntu@railsvr1:/var/vhosts/staging.testing_blah.org.au/current/app/models/user.rb ~/Desktop/ben.rb
+
+    the above line will take the user.rb file from the staging server, then it will be
+    copied and places on the desktop where its renamed to ben.rb
+
+    important part to note is from the home direction we want to get the desktop.
+    ~/ is the home directory, and ~/Desktop will be our desktop.

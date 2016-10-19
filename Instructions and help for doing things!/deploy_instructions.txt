@@ -1,0 +1,30 @@
+Deploy Instructions.
+
+1. Go to branch Develop.
+
+2. gitx check release tag for previous release.
+  - ensure there are no other release branches hanging around.
+
+3. git flow release start tag_number eg: 0.11.0
+
+4. git flow release finish '0.11.0'
+  - this should just be copyable from the prompts in the console.
+
+5. should be in VIM or whatever.
+  5.1 :i to insert some text
+  5.2 write the tag here. eg: 0.11.0
+  5.3 hit escape and get out of the editing.
+  5.4 :x save and exit.
+  5.5 should be on master, with a tagged release.
+
+6. ensure branch is master. then do, "git push" then "git push --tags"
+
+7. cap deploy -s branch=tag_number eg: branch=0.11.0
+
+8. check the server info then hit y/n to continue.
+
+9. once deploy is done, check the staging site, see if it all works.
+   tell whoever that their shit is ready.
+
+10. Go to develop, git merge master into develop. Ensures correct tags are now
+    in develop.
