@@ -1,0 +1,96 @@
+# RuboCop for Sublime
+
+This is easiest if you are using Sublime Text 3.
+
+You have two ways of ensuring the dependancy of having rubocop is fulfilled.
+One is to have rubocop installed in your repo via the gemfile and the other is to simply do
+`gem install rubocop` to have it installed locally.
+
+## Setup RuboCop package
+
+First step is to install the Rubo​Cop package for sublime.
+You can view the package [here](https://packagecontrol.io/packages/RuboCop)
+
+To quickly isntall it just do the following:
+
+`cmd + shift + p`
+type in `install package` you will see
+`Package Control: Install Package`
+press enter
+
+Down in the bottom left of your sublime editor you will see a small indication saying
+`Loading repositories`
+Once this is finished a menu of a lot of different packages will appear.
+Then you can search for the `RuboCop` package
+Press enter when it is selected.
+
+It will now install the RuboCop package into your sublime.
+
+## Adding the RuboCop Rules.
+We want the rules from `ms_core` [here](https://github.com/moneysmartco/ms_core/blob/develop/.rubocop.yml)
+These are the moneysmart rules for rubocop.
+
+We can access these two different ways.
+1 - One is to just copy down the yml file and run that file locally. This is simple but means if the file
+changes then we dont get the latest updated RuboCop rules.
+
+2 - We can inherit the file via a request for it, this is built into RuboCop to make our lives super
+easy.
+
+the examples of both different styles can be seen in the documenation [here](https://github.com/bbatsov/rubocop/blob/master/manual/configuration.md#inheriting-configuration-from-a-remote-url)
+An example of our potential configuration:
+```rubocop.yml
+# When we inherit locally.
+inherit_from:
+  - ~/rubocop/rubocop.yml
+
+# When we inherit from a remote url
+inherit_from:
+  - https://raw.githubusercontent.com/moneysmartco/ms_core/develop/.rubocop.yml'
+```
+
+Depending on your git configuration you might not have access to the rubocop.yml file we have stored
+on `ms_core`, if this is the case just pull it down locally.
+
+
+## Running RuboCop in sublime
+
+Depending on what you use to manange your ruby version this will either be easy or hard.
+If you use rvm this should all work straight out of the box.
+if you use rbenv you will need to configure the path for where the rbenv versions are kept.
+```
+{
+  "check_for_rvm": false,
+  "check_for_rbenv": true,
+  "rbenv_path": "/usr/local/bin/rbenv",
+}
+```
+You will need to ensure you have the correct path setup for rbenv.
+
+Once you have most of this configured it will be time to see if RuboCop is missing any information.
+To verify your RuboCop isntallation go to a file and run check current file.
+`cmd + shift + P`
+`RuboCop: Check current file`
+
+This will open the sublime build console down the bottom.
+If not you can open it with `cmd + shift + B`
+This little console will output any errors you might be facing.
+Such as not finding the file, not having access, or not being able to find rbenv.
+
+Ask either #dev or #intdev for help if you have trouble debugging anythign that might popup here.
+
+Now if you are using sublime 3 you will have the benefit of being able to use the setting:
+`"mark_issues_in_view": true,`
+
+Which will highlight any RuboCop errors inside your editor.
+This is a lot nicer then having to run rubocop via the console and tracking down what the errors are.
+And much better then pushing commits and relying on hound for feedback.
+
+Depending on the style of your sublime it will be an indicator next to the line number.
+With the related error printed down the bottom left of the screen.
+Or you can also check the build console for more information (`cmd + shift + B` incase you forgot)
+
+## Updates and changes.
+
+If you would like to request a change to the rubocop configuration please open a pull request against
+the [rubocop.yml](https://raw.githubusercontent.com/moneysmartco/ms_core/develop/.rubocop.yml) on [ms_core](https://github.com/moneysmartco/ms_core)
